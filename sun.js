@@ -87,16 +87,10 @@ function LineToObserver(start, end) {
 async function DrawHMI(scene, date) {
     let metadata = await _GetClosestImage(19, date);
     let imageUrl = "https://api.helioviewer.org/v2/downloadImage/?id=" + metadata.id + "&scale=" + 1
-    let observerPositionUrl = "https://api.gl.helioviewer.org/observer/position?id=" + metadata.id;
-    let result = await fetch(observerPositionUrl);
-    let observer = await result.json();
     let plane = CreatePlane(imageUrl);
-    let pos = new THREE.Vector3(observer.x, observer.y, observer.z);
-    plane.lookAt(pos);
-    console.log(metadata);
-    let line = LineToObserver(plane.position, pos);
+    let line = LineToObserver(plane.position, new THREE.Vector3(0, 0, 10));
+    plane.add(line);
     scene.add(plane);
-    scene.add(line);
 }
 
 export { DrawHMI }

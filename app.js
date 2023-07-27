@@ -19,7 +19,7 @@ const controls = new TrackballControls(camera, renderer.domElement);
 
 camera.position.z = 15;
 
-const geometry = new THREE.SphereGeometry( 0.002, 32, 16 );
+const geometry = new THREE.SphereGeometry( 0.01, 32, 16 );
 const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 const sphere = new THREE.Mesh( geometry, material ); scene.add( sphere );
 sphere.position.x = 1
