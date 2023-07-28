@@ -90,6 +90,7 @@ async function DrawHMI(scene, date) {
     let plane = CreatePlane(imageUrl);
     let line = LineToObserver(plane.position, new THREE.Vector3(0, 0, 10));
     plane.add(line);
+    // plane.rotateY((Math.PI)/2);
     scene.add(plane);
 }
 

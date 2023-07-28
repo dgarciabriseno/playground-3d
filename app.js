@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 import { DrawHMI } from './sun';
+import data from './lines.json'
 
 const scene = new THREE.Scene();
 // const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -27,6 +28,33 @@ sphere.position.x = 1
 DrawHMI(scene, new Date("2023-06-27 16:40:00"));
 
 // TODO: Draw magnetic field lines
+const x = data['fieldlines']['lines']['0']['x'];
+const y = data['fieldlines']['lines']['0']['y'];
+const z = data['fieldlines']['lines']['0']['z'];
+
+console.log(data['fieldlines']['lines'].length)
+for(let i = 0; i < data['fieldlines']['lines'].length; i++){
+
+  const x = data['fieldlines']['lines'][i.toString()]['y'];
+  const z = data['fieldlines']['lines'][i.toString()]['x'];
+  const y = data['fieldlines']['lines'][i.toString()]['z'];
+  const curvePoints = [];
+  for (let i = 0; i < x.length; i++) {
+    curvePoints.push(new THREE.Vector3(x[i], y[i], z[i]));
+    console.log(x[i], y[i], z[i]);
+  }
+  const curve = new THREE.CatmullRomCurve3(curvePoints);
+  const points = curve.getPoints( 50 );
+  const geometry1 = new THREE.BufferGeometry().setFromPoints( points );
+
+  const material1 = new THREE.LineBasicMaterial( { color: 0xff0000 } );
+
+  // Create the final object to add to the scene
+  const curveObject = new THREE.Line( geometry1, material1 );
+  // plane.add(curveObject);
+  scene.add(curveObject);
+}
+
 
 function animate() {
 	requestAnimationFrame( animate );
